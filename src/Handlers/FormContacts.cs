@@ -73,7 +73,7 @@ namespace AlejoF.Contacts.Handlers
                 // 1. Buld SendGrid message with params and substitutions
                 var msg = new SendGridMessage();
 
-                msg.SetFrom(new EmailAddress(settings.FromAddress, $"{submissionData.ValueOf("name")} (web)"));
+                msg.SetFrom(new EmailAddress(settings.FromAddress, "Contacto web"));
                 msg.AddTo(new EmailAddress(settings.ToAddress));
 
                 if (!string.IsNullOrEmpty(settings.TemplateId))
