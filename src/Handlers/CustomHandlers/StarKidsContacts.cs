@@ -34,7 +34,14 @@ namespace AlejoF.Contacts.Handlers
                     .ToList();
 
                 if (submission.ValueOf("policy") == "accept")
-                    mappedFields.Add(new Models.SubmissionField { Name = "save-contact", Value = bool.TrueString });
+                {
+                    submission.ContactInfo = new Models.ContactInfo
+                    {
+                        Name = submission.ValueOf("name"),
+                        Email = submission.ValueOf("email"),
+                        Phone = submission.ValueOf("phone"),
+                    };
+                }
 
                 // replace fields
                 submission.Fields = mappedFields.ToArray();

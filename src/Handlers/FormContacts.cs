@@ -33,8 +33,8 @@ namespace AlejoF.Contacts.Handlers
 
             public async Task<Response> Handle(Request request, CancellationToken cancellationToken)
             {
-                // 1. If submission has policy = true, store it in TableStorage (starkidsco account)
-                if (request.Data.ValueOf("save-contact") == bool.TrueString)
+                // If submission has contactInfo, store it in TableStorage 
+                if (request.Data.ContactInfo != null)
                     await SaveContact(request.Data);
 
                 // Get site-specific settings
@@ -49,18 +49,17 @@ namespace AlejoF.Contacts.Handlers
 
             private async Task SaveContact(Models.SubmissionData submission)
             {
-                var contact = new ContactDataEntity
+                var entity = new ContactDataEntity
                 {
                     PartitionKey = submission.SiteUrl,
                     RowKey = submission.Id,
-                    Name = submission.ValueOf("name"),
-                    Email = submission.ValueOf("email"),
-                    Phone = submission.ValueOf("phone"),
-                    Message = submission.ValueOf("message"),
+                    Name = submission.ContactInfo.Name,
+                    Email = submission.ContactInfo.Email,
+                    Phone = submission.ContactInfo.Phone,
                 };
 
                 await _settingsTable.CreateIfNotExistsAsync();
-                await _contactsTable.InsertAsync(contact);
+                await _contactsTable.InsertAsync(entity);
             }
 
             private async Task<ContactSettings> GetFormSettings(Models.SubmissionData submissionData)
@@ -113,7 +112,6 @@ namespace AlejoF.Contacts.Handlers
             public string Name { get; set; }
             public string Email { get; set; }
             public string Phone { get; set; }
-            public string Message { get; set; }
         }
 
         /// <summary>
