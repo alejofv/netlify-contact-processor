@@ -8,27 +8,26 @@ using SendGrid.Helpers.Mail;
 
 namespace AlejoF.Contacts
 {
-    public class ContactSenderFunction
+    public class StarKidsContactFunction
     {
         private readonly IMediator _mediator;
 
-        public ContactSenderFunction(IMediator mediator)
+        public StarKidsContactFunction(IMediator mediator)
         {
             this._mediator = mediator;
         }
 
-        [FunctionName("SendContact")]
+        [FunctionName("ProcessStarKidsContact")]
         public async Task Run(
-            [QueueTrigger(Constants.DefaultQueueName)]Models.SubmissionData queueItem, ILogger log,
-            [SendGrid]IAsyncCollector<SendGridMessage> emailCollector)
+            [QueueTrigger("starkids-contact-form")]Models.SubmissionData queueItem, ILogger log,
+            [Queue(Constants.DefaultQueueName)]IAsyncCollector<Models.SubmissionData> collector)
         {
             log.LogInformation($"C# Queue trigger function processed: {queueItem.Id}");
 
-            var request = new Handlers.FormContacts.Request { Data = queueItem };
+            var request = new Handlers.StarKidsContacts.Request { Data = queueItem };
             var result = await _mediator.Send(request);
 
-            if (result.EmailMessage != null)
-                await emailCollector.AddAsync(result.EmailMessage);
+            await collector.AddAsync(result.Data);
         }
     }
 }

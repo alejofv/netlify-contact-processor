@@ -22,15 +22,21 @@ namespace AlejoF.Contacts.Handlers
 
         public class Handler : IRequestHandler<Request, Response>
         {
+            private readonly CloudTable _contactsTable;
             private readonly CloudTable _settingsTable;
 
             public Handler(CloudTableClient client)
             {
+                this._contactsTable = client.GetTableReference("FormContacts");
                 this._settingsTable = client.GetTableReference("NetlifyMappings");
             }
 
             public async Task<Response> Handle(Request request, CancellationToken cancellationToken)
             {
+                // 1. If submission has policy = true, store it in TableStorage (starkidsco account)
+                if (request.Data.ValueOf("save-contact") == bool.TrueString)
+                    await SaveContact(request.Data);
+
                 // Get site-specific settings
                 var settings = await GetFormSettings(request.Data);
                 if (settings == null)
@@ -39,6 +45,22 @@ namespace AlejoF.Contacts.Handlers
                 // Send mail message
                 var msg = BuildEmailMessage(settings, request.Data);
                 return new Response { EmailMessage = msg };
+            }
+
+            private async Task SaveContact(Models.SubmissionData submission)
+            {
+                var contact = new ContactDataEntity
+                {
+                    PartitionKey = submission.SiteUrl,
+                    RowKey = submission.Id,
+                    Name = submission.ValueOf("name"),
+                    Email = submission.ValueOf("email"),
+                    Phone = submission.ValueOf("phone"),
+                    Message = submission.ValueOf("message"),
+                };
+
+                await _settingsTable.CreateIfNotExistsAsync();
+                await _contactsTable.InsertAsync(contact);
             }
 
             private async Task<ContactSettings> GetFormSettings(Models.SubmissionData submissionData)
@@ -83,9 +105,20 @@ namespace AlejoF.Contacts.Handlers
             }
         }
 
-        ///
-        /// <summary>PK: "contact-form", RK: {site url}-{form name}</summary>
-        ///
+        /// <summary>
+        /// PK: sitename, RK: SubmissionId
+        /// </summary>
+        public class ContactDataEntity : TableEntity
+        {
+            public string Name { get; set; }
+            public string Email { get; set; }
+            public string Phone { get; set; }
+            public string Message { get; set; }
+        }
+
+        /// <summary>
+        /// PK: "contact-form", RK: {site url}-{form name}
+        /// </summary>
         public class ContactSettings : TableEntity
         {
             public string FromAddress { get; set; }
