@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 
-namespace AlejoF.Contacts
+namespace AlejoF.Netlify.Contact
 {
     public static class ServiceExtensions
     {

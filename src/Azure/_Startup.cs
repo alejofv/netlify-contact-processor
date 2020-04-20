@@ -2,9 +2,9 @@ using System;
 using MediatR;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 
-[assembly: FunctionsStartup(typeof(AlejoF.Contacts.Azure.Startup))]
+[assembly: FunctionsStartup(typeof(AlejoF.Netlify.Contact.Startup))]
 
-namespace AlejoF.Contacts.Azure
+namespace AlejoF.Netlify.Contact
 {
     public class Startup : FunctionsStartup
     {
