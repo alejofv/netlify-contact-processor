@@ -60,19 +60,19 @@ namespace AlejoF.Netlify.Contact.Handlers
                     {
                         var fieldToken = $"{{-{field.Name}-}}"; // i.e.: {-SiteURl-}
 
-                        if (settings.FromAddress.Contains(fieldToken))
+                        if (settings.FromAddress?.Contains(fieldToken) == true)
                             settings.FromAddress = settings.FromAddress.Replace(fieldToken, field.Value);
                         
-                        if (settings.FromName.Contains(fieldToken))
+                        if (settings.FromName?.Contains(fieldToken) == true)
                             settings.FromName = settings.FromName.Replace(fieldToken, field.Value);
 
-                        if (settings.ToAddress.Contains(fieldToken))
+                        if (settings.ToAddress?.Contains(fieldToken) == true)
                             settings.ToAddress = settings.ToAddress.Replace(fieldToken, field.Value);
 
-                        if (settings.TextContent.Contains(fieldToken))
+                        if (settings.TextContent?.Contains(fieldToken) == true)
                             settings.TextContent = settings.TextContent.Replace(fieldToken, field.Value);
 
-                        if (settings.Subject.Contains(fieldToken))
+                        if (settings.Subject?.Contains(fieldToken) == true)
                             settings.Subject = settings.Subject.Replace(fieldToken, field.Value);
                     }
                 }
