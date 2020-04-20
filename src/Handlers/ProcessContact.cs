@@ -48,9 +48,9 @@ namespace AlejoF.Netlify.Contact.Handlers
 
             private async Task SaveContact(SubmissionData submission, ContactSettings settings)
             {
-                var nameField = settings.EmailField ?? "name";
+                var nameField = settings.NameField ?? "name";
                 var emailField = settings.EmailField ?? "email";
-                var phoneField = settings.EmailField ?? "phone";
+                var phoneField = settings.PhoneField ?? "phone";
 
                 var contact = new Contact
                 {
