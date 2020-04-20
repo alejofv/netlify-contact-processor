@@ -6,14 +6,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 
-namespace AlejoF.Contacts
+namespace AlejoF.Netlify.Contact
 {
     public static class ServiceExtensions
     {
         public static IServiceCollection AddTableStorage(this IServiceCollection services)
         {
             // Azure Storage
-            var connectionString = System.Environment.GetEnvironmentVariable($"AzureWebJobsStorage", EnvironmentVariableTarget.Process);
+            var connectionString = System.Environment.GetEnvironmentVariable($"StorageConnectionString", EnvironmentVariableTarget.Process);
 
             services.AddSingleton(svc =>
             {
