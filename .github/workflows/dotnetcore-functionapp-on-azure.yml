@@ -1,6 +1,9 @@
-name: .NET Core
+name: Deploy Function App
 
-on: [push]
+on:
+  push:
+    branches:
+      - master
 
 jobs:
   build:
