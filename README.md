@@ -16,7 +16,7 @@ To, From addresses and the template Id can be set up in an Azure Storage Table, 
 * PK: `"email-settings"`
 * RK: `{site url}-{form name}`
 * FromAddress: sender email address
-* FromAddress: sender name
+* FromName: sender name
 * ToAddress: target email address.
 * TemplateId: SendGrid template ID (optional)
 * TextContent: Text to use when no template is specified
