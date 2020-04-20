@@ -31,6 +31,7 @@ namespace AlejoF.Netlify.Contact.Handlers
             public async Task<Unit> Handle(Request request, CancellationToken cancellationToken)
             {
                 await _settingsTable.CreateIfNotExistsAsync();
+                await _contactsTable.CreateIfNotExistsAsync();
 
                 // Get site-specific settings
                 var settings = await GetContactSettings(request.Data);
@@ -61,7 +62,6 @@ namespace AlejoF.Netlify.Contact.Handlers
                     Details = JsonConvert.SerializeObject(submission.Fields),
                 };
 
-                await _contactsTable.CreateIfNotExistsAsync();
                 await _contactsTable.InsertAsync(contact);
             }
         }

@@ -1,6 +1,6 @@
 # Netlify Contact Processor
 
-This repo contains the source code for an Azure functions App that complements the azure-netlify-processor app.
+This repo contains the source code for an Azure Functions App that complements the [azure-netlify-processor app](https://github.com/alexphi/azure-netlify-processor).
 
 The app is aimed to process routed submissions from various sites, using common processes such as sending an email or saving a contact information.
 
