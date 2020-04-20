@@ -6,7 +6,7 @@ The app is aimed to process routed submissions from various sites, using common 
 
 ## Functions
 
-**EmailFunction**
+**Email Function**
 
 This functions gets the data from the submission and sends an email using SendGrid. By default, the sendgrid api call includes all the submission fields as substitutions and can (optionally) use an specific template.
 
@@ -24,3 +24,19 @@ To, From addresses and the template Id can be set up in an Azure Storage Table, 
 
 Some fields support "tokens" surrounded by brackets (i.e.: `{email}`) to use the value coming from the specified submission field.
 Special tokens for `{SiteUrl}` and `{FormName}` are also available.
+
+This function requires a `AzureWebJobsSendGridApiKey` setting.
+
+
+**Contact Function**
+
+This functions gets the data from the submission and stores the information as a contact in the "NetlifyContacts" table.
+
+Field mappings can be set up in an Azure Storage Table, using the following structure:
+
+* Table name: NetlifyMappings
+* PK: `"contact-settings"`
+* RK: `{site url}-{form name}`
+* NameField: submission field name that holds the contact's name (if null, defaults to "name")
+* EmailField: submission field name that holds the contact's email (if null, defaults to "email")
+* PhoneField: submission field name that holds the contact's phone (if null, defaults to "phone")
