@@ -13,7 +13,7 @@ namespace AlejoF.Netlify.Contact
         public static IServiceCollection AddTableStorage(this IServiceCollection services)
         {
             // Azure Storage
-            var connectionString = System.Environment.GetEnvironmentVariable($"AzureWebJobsStorage", EnvironmentVariableTarget.Process);
+            var connectionString = System.Environment.GetEnvironmentVariable($"StorageConnectionString", EnvironmentVariableTarget.Process);
 
             services.AddSingleton(svc =>
             {
