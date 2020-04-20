@@ -101,7 +101,7 @@ namespace AlejoF.Netlify.Contact.Handlers
                 else
                 {
                     foreach (var s in submissionData.Fields)
-                        msg.AddSubstitution(s.Name, s.Value);
+                        msg.AddSubstitution($"-{s.Name}-", s.Value);
                 }
 
                 return msg;

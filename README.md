@@ -8,7 +8,7 @@ The app is aimed to process routed submissions from various sites, using common 
 
 **Email Function**
 
-This functions gets the data from the submission and sends an email using SendGrid. By default, the sendgrid api call includes all the submission fields as substitutions and can (optionally) use an specific template.
+This functions gets the data from the submission and sends an email using SendGrid. By default, the sendgrid api call includes all the submission fields as substitutions and can use an specific template.
 
 To, From addresses and the template Id can be set up in an Azure Storage Table, using the following structure:
 
@@ -22,8 +22,9 @@ To, From addresses and the template Id can be set up in an Azure Storage Table, 
 * TextContent: Text to use when no template is specified
 * Subject: Email subject when no template is specified
 
-Some fields support "tokens" surrounded by brackets/dashes (i.e.: `{-email-}`) to use the value coming from the specified submission field.
-Special tokens for `{-SiteUrl-}` and `{-FormName-}` are also available.
+Some fields support "tokens" surrounded by brackets/dashes (i.e.: `{-email-}`) to use the value coming from the specified submission field. Special tokens for `{-SiteUrl-}` and `{-FormName-}` are also available.
+
+The SendGrid substitutions are sent as `-{field name}-`: `{field value}`.
 
 This function requires a `AzureWebJobsSendGridApiKey` setting.
 
