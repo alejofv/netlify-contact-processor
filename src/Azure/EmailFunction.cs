@@ -19,7 +19,7 @@ namespace AlejoF.Netlify.Contact
 
         [FunctionName("process-email")]
         public async Task Run(
-            [QueueTrigger(Constants.EmailQueueName)]Models.SubmissionData queueItem, ILogger log,
+            [QueueTrigger(Constants.EmailQueueName, Connection = Storage.ConnectionStringSetting)]Models.SubmissionData queueItem, ILogger log,
             [SendGrid]IAsyncCollector<SendGridMessage> emailCollector)
         {
             log.LogInformation($"C# Queue trigger function processed: {queueItem.Id}");

@@ -18,7 +18,7 @@ namespace AlejoF.Netlify.Contact
 
         [FunctionName("process-contact")]
         public async Task Run(
-            [QueueTrigger(Constants.ContactQueueName)]Models.SubmissionData queueItem, ILogger log)
+            [QueueTrigger(Constants.ContactQueueName, Connection = Storage.ConnectionStringSetting)]Models.SubmissionData queueItem, ILogger log)
         {
             log.LogInformation($"C# Queue trigger function processed: {queueItem.Id}");
 

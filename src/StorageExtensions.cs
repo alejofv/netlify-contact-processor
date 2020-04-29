@@ -8,12 +8,17 @@ using Microsoft.WindowsAzure.Storage.Table;
 
 namespace AlejoF.Netlify.Contact
 {
+    public static class Storage
+    {
+        public const string ConnectionStringSetting = "StorageConnectionString";
+    }
+
     public static class ServiceExtensions
     {
         public static IServiceCollection AddTableStorage(this IServiceCollection services)
         {
             // Azure Storage
-            var connectionString = System.Environment.GetEnvironmentVariable($"StorageConnectionString", EnvironmentVariableTarget.Process);
+            var connectionString = System.Environment.GetEnvironmentVariable(Storage.ConnectionStringSetting, EnvironmentVariableTarget.Process);
 
             services.AddSingleton(svc =>
             {
@@ -23,7 +28,10 @@ namespace AlejoF.Netlify.Contact
 
             return services;
         }
+    }
 
+    public static class CloudTableExtensions
+    {
         public static async Task<TEntity> RetrieveAsync<TEntity>(this CloudTable table, string partitionKey, string rowKey)
             where TEntity : TableEntity, new()
         {
